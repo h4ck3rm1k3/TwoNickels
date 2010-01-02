@@ -182,6 +182,7 @@ dimeEntity::dimeEntity()
   : dimeRecordHolder(0), entityFlags(0), colorNumber(256) 
 {
   this->layer = dimeLayer::getDefaultLayer();
+  entityNum=dimeEntity::entityCount++;
 }
 
 /*!
@@ -895,3 +896,6 @@ dimeEntity::shouldWriteRecord(const int groupcode) const
     return true;
   }
 }
+
+// static
+long  dimeEntity::entityCount=0;

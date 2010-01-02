@@ -141,11 +141,14 @@ public:
   
 protected:
   bool copyRecords(dimeEntity * const entity, dimeModel * const model) const;
-
+  static long entityCount;
+  long entityNum;
 private:
   const dimeLayer *layer;
   int16 entityFlags;
   int16 colorNumber;
+
+
 }; // class dimeEntity
 
 inline const dimeLayer *

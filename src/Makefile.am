@@ -10,7 +10,7 @@ SUBDIRS = classes entities objects records sections tables util convert .
 
 INCLUDES = -I$(top_srcdir)/include
 
-lib_LTLIBRARIES = libdime.la
+lib_LTLIBRARIES = libdime.la 
 
 
 DimeSources = \
@@ -26,7 +26,7 @@ DimeSources = \
 libdime_la_LIBADD = \
 	classes/libclasses.la entities/libentities.la objects/libobjects.la \
 	records/librecords.la sections/libsections.la tables/libtables.la \
-	util/libutil.la convert/libconvert.la
+	util/libutil.la convert/libconvert.la /usr/lib/libproj.la
 
 libdime_la_LDFLAGS = \
 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)

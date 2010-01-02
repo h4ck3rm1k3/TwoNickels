@@ -39,7 +39,12 @@
 #include <dime/util/MemHandler.h>
 #include <dime/Model.h>
 
+
 static char entityName[] = "POINT";
+
+
+
+
 
 /*!
   Constructor.

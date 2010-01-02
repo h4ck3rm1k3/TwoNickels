@@ -36,6 +36,14 @@ class DIME_DLL_API dimeMText : public dimeEntity
 {
  protected:
   std::string text; // the data
+  std::string layer; // the layer
+  std::string type; // the type of data
+  std::string font; // the font data
+  double easting;
+  double northing;
+
+  double lat;
+  double lon;
 
 public:
   dimeMText();

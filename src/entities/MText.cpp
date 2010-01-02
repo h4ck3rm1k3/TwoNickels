@@ -39,7 +39,7 @@
 #include <dime/util/MemHandler.h>
 #include <dime/Model.h>
 #include <math.h>
-
+#include <proj_api.h>
 #ifdef _WIN32
 #define M_PI 3.14159265357989
 #endif
@@ -48,7 +48,49 @@
 #define M_PI 3.14159265357989
 #endif
 
-static char entityName[] = "CIRCLE";
+static char entityName[] = "MTEXT";
+
+void convertPoint(double x, double y, double & rx, double & ry) 
+{
+  projPJ pj_merc, pj_latlong;
+
+  //  #s2cs +proj=utm +south +ellps=intl +zone=24K +units=m +proj=tmerc -f "%.7f"
+  if (!(pj_merc = pj_init_plus("+proj=utm +south +ellps=intl +zone=24K +units=m")) )
+    exit(1);
+
+  //  if (!(pj_merc = pj_init_plus("+proj=merc +ellps=clrk66 +lat_ts=33")) )
+  //               exit(1);
+  //            if (!(pj_latlong = pj_init_plus("+proj=latlong +ellps=clrk66")) )
+  //               exit(1);
+
+  if (!(pj_latlong = pj_init_plus("+proj=latlong +ellps=intl")) )
+    exit(1);
+
+  //  while (scanf("%lf %lf", &x, &y) == 2) {
+  //  rx = x * DEG_TO_RAD;
+  //  ry = y * DEG_TO_RAD;
+  //  int p = pj_transform(pj_latlong, pj_merc, 1, 1, &rx, &ry, NULL );
+  
+  //  cerr << 
+  //int pj_transform( projPJ srcdefn, projPJ dstdefn, long point_count, int point_offset, double *x, double *y, double *z );
+  //printf("%.2f\t%.2f\n", x, y);
+  //            }
+  //            exit(0);
+  double ax[1], ay[1], az[1];
+  ax[0] = x * DEG_TO_RAD;
+  ay[0] = y * DEG_TO_RAD;
+  az[0] = 0;
+  
+    /** end of "caution" section. */
+    
+    pj_transform(pj_merc, pj_latlong, 1, 1, ax, ay, az);
+    
+    //printf("%.4f\t%.4f -> %.4f\t%.4f\n", *lat, *lon, y[0], x[0]);    
+    rx = ay[0];
+    ry = ax[0];
+
+}
+
 
 // FIXME: configurable
 
@@ -59,7 +101,12 @@ static char entityName[] = "CIRCLE";
 */
 
 dimeMText::dimeMText() 
-  : text()
+  : text(),
+    easting(0),
+    northing(0),
+    lat(0),
+    lon(0)
+    
 {
 }
 
@@ -92,11 +139,15 @@ bool
 dimeMText::write(dimeOutput * const file)
 {
   dimeEntity::preWrite(file);
+
+  convertPoint(easting, northing, lat, lon) ;
   
   file->writeGroupCode(10); // TODO
 
 
   file->writeString(this->text.c_str());
+
+  print();
 
 
   //  this->writeExtrusionData(file);
@@ -200,22 +251,26 @@ Text Record GC:44 Param:||0|1065353216|1|1
 
     switch(groupcode) 
       {
+      case 44:
+	convertPoint(easting, northing, lat, lon) ;
+	print(); // just print out the whole record so far.
+	break;
+
       case 10: // UTM COORD Easting
+	//	easting=param.double_data;
+	easting=param.double_data;
+	break;
+
       case 20: // Northing
 
-	std::cerr.width(10);
-	std::cerr.precision(10);
-  std::cerr << "Text Record GC:" << groupcode << " Param:"
-    
-	    <<"|"	    << param.double_data 
-	    << std::endl;
+	northing=param.double_data;
+	break;
 
-  break;
       case 30: // number
       case 5: // 
       case -1:
       case 100 :
-      case 1:
+
       case 256:
       case 2:
       case 40:
@@ -223,8 +278,8 @@ Text Record GC:44 Param:||0|1065353216|1|1
       case 71:
       case 72:
       case 73:
-      case 44:
 
+	
 
       case 50: //
       case 62:
@@ -240,11 +295,33 @@ Text Record GC:44 Param:||0|1065353216|1|1
 
 	break;
 
-      case 7:// name
+      case 1:
+	// emit a take for the name
+	//	std::cout << "<tag k=\"name\" v=\"" <<  param.string_data  << "\" />" << std::endl;
+	//<< groupcode << " StringParam:"
+	text=param.string_data;
+	break;
+
       case 8:
+	//	std::cout << "<tag k=\"layer\" v=\"" <<  param.string_data  << "\" />" << std::endl;
+	layer=param.string_data;
+	break;
+ 	   
+      case 7:// name
+	//	std::cout << "<tag k=\"font\" v=\"" <<  param.string_data  << "\" />" << std::endl;
+	type=param.string_data;
+	break;
       case 6:
+	// the byLayer element
+	break;
+
+      case 3:
+      case 4:
+
+
+      case 9:// name
       default:
-  std::cerr << "Text Record GC:" << groupcode << " StringParam:"
+  std::cout << "<tag GC:" << groupcode << " StringParam:"
  	    << param.string_data 
     // <<"|" << param.hex_data 
     // <<"|"	    << param.int8_data 
@@ -288,11 +365,37 @@ dimeMText::getRecord(const int groupcode,
 
 //!
 
+
+
 void
 dimeMText::print() const
 {
-  fprintf(stdout,"<tag k='mtext' v='%s' />\n",text.c_str());
-  fprintf(stderr, " TEXT: %s\n", text.c_str());
+  std::cout << "<node id='-"<< entityNum 
+	    <<  "' version='" << 1<< "' " ;
+
+	std::cout.width(10);
+	std::cout.precision(10);
+
+  std::cout  <<  "' lat='" << lat<< "'";
+
+	std::cout.width(10);
+	std::cout.precision(10);
+
+  std::cout  <<  "' lon='" << lon;
+
+ std::cout   << "' />" << std::endl;	  
+  std::cout << "<tag k='type' v='" << type.c_str() << "/>\n";
+
+  std::cout << "<tag k='name' v='" << text.c_str() << "/>\n";
+	std::cout.width(10);
+	std::cout.precision(10);
+
+  std::cout << "<tag k='easting' v=" << easting << " />"<< std::endl;
+	std::cout.width(10);
+	std::cout.precision(10);
+	std::cout << "<tag k='northing' v=" << northing << " />" << std::endl;
+
+  std::cout << "</node>" << std::endl;
 }
 
 //!
