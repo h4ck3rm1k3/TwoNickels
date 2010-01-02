@@ -166,38 +166,96 @@ dimeMText::handleRecord(const int groupcode,
 {
 
   /*
-    switch(groupcode) {
-    case -1:
-    case 100 :
-    case 10:
-  case 1:
-  case 20:
-  case 256:
-  case 2:
-  case 30:
-  case 370:
-  case 40:
-  case 40:
-  case 41:
-  case 5:
-  case 62:
-  case 6:
-  case 71:
-  case 72:
-  case 7:
-  case 8:
-    
-  }
+    Text Record GC:5 Param:1C2|1C2|�|4832|-1081339168|-1.09433|-1.09433
+    Text Record GC:100 Param:AcDbEntity|AcDbEntity|�|4832|-1081339168|-1.09433|-1.09433
+    Text Record GC:100 Param:AcDbMText|AcDbMText|�|4832|-1081339168|-1.09433|-1.09433
+    Text Record GC:8 Param:TXT_CONSTRUCAO|TXT_CONSTRUCAO|�|4832|-1081339168|-1.09433|-1.09433
+    Text Record GC:62 Param:|||256|-1081343744|-1.09378|-1.09378
+    Text Record GC:370 Param:-1|-1|�|4832|-1081339168|-1.09433|-1.09433
+    Text Record GC:6 Param:ByLayer|ByLayer|�|4832|-1081339168|-1.09433|-1.09433
+
+
+Text Record GC:5 Param:|�|6784|-1074128256|-1.95393|-1.95393
+Text Record GC:100 Param:|�|6784|-1074128256|-1.95393|-1.95393
+Text Record GC:100 Param:|�|6784|-1074128256|-1.95393|-1.95393
+---Text Record GC:8 Param:TXT_CONSTRUCAO|TXT_CONSTRUCAO|�|6784|-1074128256|-1.95393|-1.95393
+Text Record GC:62 Param:|||256|-1074134784|-1.95316|-1.95316
+Text Record GC:370 Param:-1|-1|�|6784|-1074128256|-1.95393|-1.95393
+---Text Record GC:6 Param:ByLayer|ByLayer|�|6784|-1074128256|-1.95393|-1.95393
+Text Record GC:10 Param:||-752|1219427600|358376|358376
+Text Record GC:20 Param:|�|-24958|1257021058|7.75354e+06|7.75354e+06
+Text Record GC:30 Param:||0|0|0|0
+Text Record GC:40 Param:|�|-13107|1070386381|1.6|1.6
+Text Record GC:41 Param:||0|1120403456|100|100
+Text Record GC:71 Param:||7|1120403463|100|100
+Text Record GC:72 Param:||2|1120403458|100|100
+Text Record GC:1 Param:|�|6784|-1074128256|-1.95393|-1.95393
+--Text Record GC:7 Param:ROMANS|ROMANS|�|6784|-1074128256|-1.95393|-1.95393
+Text Record GC:50 Param:||0|0|0|0
+Text Record GC:73 Param:||0|0|0|0
+Text Record GC:44 Param:||0|1065353216|1|1
+
+
 */
+
+    switch(groupcode) 
+      {
+      case 10: // UTM COORD Easting
+      case 20: // Northing
+
+	std::cerr.width(10);
+	std::cerr.precision(10);
   std::cerr << "Text Record GC:" << groupcode << " Param:"
- 	    << param.string_data 
- <<"|" << param.hex_data 
+    
+	    <<"|"	    << param.double_data 
+	    << std::endl;
+
+  break;
+      case 30: // number
+      case 5: // 
+      case -1:
+      case 100 :
+      case 1:
+      case 256:
+      case 2:
+      case 40:
+      case 41:
+      case 71:
+      case 72:
+      case 73:
+      case 44:
+
+
+      case 50: //
+      case 62:
+      case 370:
+
+  std::cerr << "Text Record GC:" << groupcode << " Param:"
  <<"|"	    << param.int8_data 
  <<"|"	    << param.int16_data 
  <<"|"	    << param.int32_data 
  <<"|"	    << param.float_data 
  <<"|"	    << param.double_data 
 	    << std::endl;
+
+	break;
+
+      case 7:// name
+      case 8:
+      case 6:
+      default:
+  std::cerr << "Text Record GC:" << groupcode << " StringParam:"
+ 	    << param.string_data 
+    // <<"|" << param.hex_data 
+    // <<"|"	    << param.int8_data 
+    // <<"|"	    << param.int16_data 
+    // <<"|"	    << param.int32_data 
+    // <<"|"	    << param.float_data 
+    // <<"|"	    << param.double_data 
+	    << std::endl;
+
+  }
+
 
   return dimeEntity::handleRecord(groupcode, param, memhandler);
 }
