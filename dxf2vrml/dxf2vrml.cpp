@@ -30,6 +30,7 @@
 #include <dime/Model.h>
 #include <dime/State.h>
 #include <stdio.h>
+#include <iostream>
 #include <dime/convert/convert.h>
 
 #ifdef macintosh
@@ -38,6 +39,7 @@
 #include "SIOUX.h"
 #endif // macintosh
 
+using namespace std;
 static int 
 usage(char *progname)
 {
@@ -144,6 +146,8 @@ main(int argc, char **argv)
       return -1;
     }
   }
+
+  std::cout << "<osm version='0.6'>" << std::endl;
   
   //
   // try reading the file
@@ -189,7 +193,11 @@ main(int argc, char **argv)
   }
   
   converter.writeVrml(out, vrml1, only2d);
-  
+
+  std::cout << "</osm>" << std::endl;
+
+
+
   if (out != stdout) fclose(out);
   return 0; // alles in ordnung :-)
 }

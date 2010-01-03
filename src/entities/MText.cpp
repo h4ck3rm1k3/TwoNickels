@@ -679,17 +679,17 @@ dimeMText::print() const
 	std::cout.width(10);
 	std::cout.precision(10);
 
-  std::cout  <<  "lon='" << lon   << "' />" << std::endl;	  
-  std::cout << "<tag k='type' v='" << type.c_str() << "/>\n";
+  std::cout  <<  "lon='" << lon   << "' >" << std::endl;	  
+  std::cout << "<tag k='type' v='" << type.c_str() << "'/>\n";
 
-  std::cout << "<tag k='name' v='" << text.c_str() << "/>\n";
+  std::cout << "<tag k='name' v='" << text.c_str() << "'/>\n";
 	std::cout.width(10);
 	std::cout.precision(10);
 
-  std::cout << "<tag k='easting' v=" << easting << " />"<< std::endl;
+  std::cout << "<tag k='easting' v='" << easting << "' />"<< std::endl;
 	std::cout.width(10);
 	std::cout.precision(10);
-	std::cout << "<tag k='northing' v=" << northing << " />" << std::endl;
+	std::cout << "<tag k='northing' v='" << northing << "' />" << std::endl;
 
   std::cout << "</node>" << std::endl;
 }
