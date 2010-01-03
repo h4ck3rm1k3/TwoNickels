@@ -83,7 +83,7 @@ void convertPoint(double x, double y, double & rx, double & ry)
   
     /** end of "caution" section. */
     
-    pj_transform(pj_merc, pj_latlong, 1, 1, ax, ay, az);
+  //    pj_transform(pj_merc, pj_latlong, 1, 1, ax, ay, az);
     
     //printf("%.4f\t%.4f -> %.4f\t%.4f\n", *lat, *lon, y[0], x[0]);    
     rx = ay[0];
@@ -140,8 +140,10 @@ dimeMText::write(dimeOutput * const file)
 {
   dimeEntity::preWrite(file);
 
-  convertPoint(easting, northing, lat, lon) ;
-  
+  //  convertPoint(easting, northing, lat, lon) ;
+  lat=  easting;
+  lon=  northing;
+
   file->writeGroupCode(10); // TODO
 
 
@@ -252,7 +254,10 @@ Text Record GC:44 Param:||0|1065353216|1|1
     switch(groupcode) 
       {
       case 44:
-	convertPoint(easting, northing, lat, lon) ;
+	//	convertPoint(easting, northing, lat, lon) ;
+	lat=  easting;
+	lon=  northing;
+	
 	print(); // just print out the whole record so far.
 	break;
 
@@ -376,14 +381,12 @@ dimeMText::print() const
 	std::cout.width(10);
 	std::cout.precision(10);
 
-  std::cout  <<  "' lat='" << lat<< "'";
+  std::cout  <<  "lat='" << lat<< "'";
 
 	std::cout.width(10);
 	std::cout.precision(10);
 
-  std::cout  <<  "' lon='" << lon;
-
- std::cout   << "' />" << std::endl;	  
+  std::cout  <<  "lon='" << lon   << "' />" << std::endl;	  
   std::cout << "<tag k='type' v='" << type.c_str() << "/>\n";
 
   std::cout << "<tag k='name' v='" << text.c_str() << "/>\n";
