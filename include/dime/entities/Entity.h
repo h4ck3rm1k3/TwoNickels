@@ -140,6 +140,11 @@ public:
   
   static void arbitraryAxis(const dimeVec3f &givenaxis, dimeVec3f &newaxis);
   static void generateUCS(const dimeVec3f &givenaxis, dimeMatrix &m);
+
+  static long getNewEntityCount()
+  {
+    return entityCount++;
+  }
   
 protected:
   bool copyRecords(dimeEntity * const entity, dimeModel * const model) const;

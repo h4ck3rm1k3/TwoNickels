@@ -180,9 +180,8 @@ main(int argc, char **argv)
   // when the user saved the DXF file, and may therefore not be what
   // we want when converting files.
   //
-  if (fillmode == 0) converter.setFillmode(true);
-
-  if (layercol) converter.setLayercol(true);
+  //  if (fillmode == 0) converter.setFillmode(true);
+  //  if (layercol) converter.setLayercol(true);
     
   if (!converter.doConvert(model)) {
     fprintf(stderr,"Error during conversion\n");

@@ -30,11 +30,50 @@
 
 #include <stdio.h>
 #include <dime/Basic.h>
+#include <string>
+#include <map>
+#include <sstream>
 
 class dimeModel;
 class dxfLayerData;
 class dimeState;
 class dimeEntity;
+
+using namespace std;
+
+class cPoint
+{
+  string sKey;
+
+ public:
+  const string & key ()
+  {
+    return sKey;
+  }
+  
+  cPoint(double lat, double lon)
+    {
+      std::ostringstream buffer;
+      buffer.width(10);
+      buffer.precision(10);
+      buffer << lat << "|" << lon;
+      sKey = string (buffer.str());    
+    }
+
+  bool operator== ( const  cPoint& p) const
+  {
+    return (sKey==p.sKey);
+    //return (dLat==p.dLat) && (dLon==p.dLon);
+  }
+
+  bool operator< ( const  cPoint& p) const
+  {
+    return (sKey<p.sKey);
+    //    return (dLat<p.dLat) && (dLon<p.dLon);
+
+  }
+
+};
 
 class DIME_DLL_API dxfConverterOSM
 {
@@ -42,6 +81,15 @@ public:
   dxfConverterOSM();
   ~dxfConverterOSM();
   
+  // mapping of 
+  typedef map<cPoint, int> TMapCoordID; // LAT + LONG -> id
+  TMapCoordID points;
+
+  void add(double lat, double lon,int id);
+  long lookup(double lat, double lon);
+  long lookup(const cPoint & );
+  void add(const cPoint &,int id);
+
   void setMaxerr(const dxfdouble maxerr) {
     this->maxerr = maxerr;
   }

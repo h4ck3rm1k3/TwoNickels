@@ -82,6 +82,8 @@ private:
 
 }; // class dimeMText
 
+/// 
+extern void convertPoint(double x, double y, double & rx, double & ry) ;
 
 #endif // ! DIME_MTEXT_H
 
