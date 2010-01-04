@@ -1,10 +1,11 @@
 ## Process this file with automake to generate Makefile.in.
 
 DXF2VRMLDIR = dxf2vrml
+DXF2OSMDIR = dxf2osm
 DXFSPHEREDIR = dxfsphere
 
 
-EXAMPLEPROGDIRS = $(DXF2VRMLDIR) $(DXFSPHEREDIR)
+EXAMPLEPROGDIRS = $(DXF2OSMDIR) $(DXF2VRMLDIR) $(DXFSPHEREDIR)
 
 ACLOCAL_AMFLAGS = -I m4
 

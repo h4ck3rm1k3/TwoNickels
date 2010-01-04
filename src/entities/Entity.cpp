@@ -290,18 +290,19 @@ dimeEntity::createEntity(const char * const name,
 #ifndef NDEBUG
 
 
-  if (name == "MTEXT")
-    {
-      fprintf(stderr,"Entity: MTEXT %s\n", name);      
-    }
-  else if (name == "POINT")
-    {
-      fprintf(stderr,"Entity: POINT %s\n", name);
-    }  
-  else
-    {
-      fprintf(stderr,"Entity: %s\n", name);
-    }
+  // if (name == "MTEXT")
+  //   {
+  //     //      fprintf(stderr,"Entity: MTEXT %s\n", name);      
+  //     return new(memhandler) dimeMText;
+  //   }
+  // else if (name == "POINT")
+  //   {
+  //     //      fprintf(stderr,"Entity: POINT %s\n", name);
+  //   }  
+  // else
+  //   {
+  //     //      fprintf(stderr,"Entity: %s\n", name);
+  //   }
 
 // Error creating entity: (null).
 // ERROR:NO NAME Entity: (null)
@@ -345,38 +346,40 @@ dimeEntity::createEntity(const char * const name,
 
   if (!strcmp(name, "3DFACE"))
     return new(memhandler) dime3DFace;
-  if (!strcmp(name, "HATCH"))
+  else if (!strcmp(name, "HATCH"))
     return new(memhandler) dimeHatch; // new
 
-  if (!strcmp(name, "MTEXT"))
+  else if (!strcmp(name, "MTEXT"))
     return new(memhandler) dimeMText; // new
 
-  if (!strcmp(name, "VERTEX"))
+  else if (!strcmp(name, "VERTEX"))
     return new(memhandler) dimeVertex;
-  if (!strcmp(name, "POLYLINE"))
+  else if (!strcmp(name, "POLYLINE"))
     return new(memhandler) dimePolyline;
-  if (!strcmp(name, "LINE"))
+  else if (!strcmp(name, "LINE"))
     return new(memhandler) dimeLine;
-  if (!strcmp(name, "INSERT")) //x
+  else if (!strcmp(name, "INSERT")) //x
     return new(memhandler) dimeInsert;
-  if (!strcmp(name, "BLOCK")) // x
+  else if (!strcmp(name, "BLOCK")) // x
     return new(memhandler) dimeBlock(memhandler);
-  if (!strcmp(name, "SOLID"))
+  else if (!strcmp(name, "SOLID"))
     return new(memhandler) dimeSolid;   
-  if (!strcmp(name, "TRACE"))
+  else if (!strcmp(name, "TRACE"))
     return new(memhandler) dimeTrace;
-  if (!strcmp(name, "POINT"))
+  else if (!strcmp(name, "POINT"))
     return new(memhandler) dimePoint;
-  if (!strcmp(name, "CIRCLE"))
+  else if (!strcmp(name, "CIRCLE"))
     return new(memhandler) dimeCircle; //x
-  if (!strcmp(name, "LWPOLYLINE"))
+  else if (!strcmp(name, "LWPOLYLINE"))
     return new(memhandler) dimeLWPolyline;
-  if (!strcmp(name, "SPLINE"))
+  else if (!strcmp(name, "SPLINE"))
     return new(memhandler) dimeSpline;
-  if (!strcmp(name, "ELLIPSE"))
+  else if (!strcmp(name, "ELLIPSE"))
     return new(memhandler) dimeEllipse;
-  if (!strcmp(name, "ARC"))
+  else if (!strcmp(name, "ARC"))
     return new(memhandler) dimeArc;
+  else if (!strcmp(name, "ENDBLK"))
+    return new(memhandler) dimeUnknownEntity(name, memhandler);
   
   fprintf(stderr,"Unknown Entity: %s\n", name);
   return new(memhandler) dimeUnknownEntity(name, memhandler);

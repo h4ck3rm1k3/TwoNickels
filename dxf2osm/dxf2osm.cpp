@@ -31,7 +31,7 @@
 #include <dime/State.h>
 #include <stdio.h>
 #include <iostream>
-#include <dime/convert/convert.h>
+#include <dime/convert/convertOSM.h>
 
 #ifdef macintosh
 #include "console.h"
@@ -147,7 +147,6 @@ main(int argc, char **argv)
     }
   }
 
-  
   //
   // try reading the file
   //
@@ -170,7 +169,7 @@ main(int argc, char **argv)
     }
   }
   
-  dxfConverter converter;
+  dxfConverterOSM converter;
   converter.findHeaderVariables(model);
   converter.setMaxerr(maxerr);
   if (sub > 0) converter.setNumSub(sub);
@@ -191,6 +190,8 @@ main(int argc, char **argv)
     return -1;
   }
   
+  converter.writeOSM(out);
+
 
 
 

@@ -138,7 +138,7 @@ dimeStringRecord::read(dimeInput * const in)
   this->string = NULL;
   const char *ptr = in->readString();
   if (ptr){
-    std::cerr << "Read String :" << ptr << std::endl;
+    //std::cerr << "Read String :" << ptr << std::endl;
 // Read String :AC1015
 // Read String :$ACADMAINTVER
 // Read String :$ACADVER

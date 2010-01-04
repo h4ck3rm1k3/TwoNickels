@@ -14,6 +14,7 @@ ConvertSources = \
 	arcconvert.cpp \
 	circleconvert.cpp \
 	convert.cpp \
+	convertosm.cpp \
 	convert_funcs.h \
 	ellipseconvert.cpp \
 	layerdata.cpp \

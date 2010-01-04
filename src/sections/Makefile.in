@@ -36,8 +36,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = src/convert
-DIST_COMMON = $(libconvertinc_HEADERS) $(srcdir)/Makefile.am \
+subdir = src/sections
+DIST_COMMON = $(libsectionsinc_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -51,14 +51,12 @@ CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
-libconvert_la_LIBADD =
-am__objects_1 = 3dfaceconvert.lo arcconvert.lo circleconvert.lo \
-	convert.lo convertosm.lo ellipseconvert.lo layerdata.lo \
-	lineconvert.lo linesegment.lo lwpolylineconvert.lo \
-	pointconvert.lo polylineconvert.lo solidconvert.lo \
-	traceconvert.lo
-am_libconvert_la_OBJECTS = $(am__objects_1)
-libconvert_la_OBJECTS = $(am_libconvert_la_OBJECTS)
+libsections_la_LIBADD =
+am__objects_1 = BlocksSection.lo ClassesSection.lo EntitiesSection.lo \
+	HeaderSection.lo ObjectsSection.lo Section.lo TablesSection.lo \
+	UnknownSection.lo
+am_libsections_la_OBJECTS = $(am__objects_1)
+libsections_la_OBJECTS = $(am_libsections_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
@@ -81,8 +79,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libconvert_la_SOURCES)
-DIST_SOURCES = $(libconvert_la_SOURCES)
+SOURCES = $(libsections_la_SOURCES)
+DIST_SOURCES = $(libsections_la_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -104,8 +102,8 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(libconvertincdir)"
-HEADERS = $(libconvertinc_HEADERS)
+am__installdirs = "$(DESTDIR)$(libsectionsincdir)"
+HEADERS = $(libsectionsinc_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -249,32 +247,30 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = -I$(top_srcdir)/include
-noinst_LTLIBRARIES = libconvert.la
-ConvertSources = \
-	3dfaceconvert.cpp \
-	arcconvert.cpp \
-	circleconvert.cpp \
-	convert.cpp \
-	convertosm.cpp \
-	convert_funcs.h \
-	ellipseconvert.cpp \
-	layerdata.cpp \
-	lineconvert.cpp \
-	linesegment.cpp \
-	linesegment.h \
-	lwpolylineconvert.cpp \
-	pointconvert.cpp \
-	polylineconvert.cpp \
-	solidconvert.cpp \
-	traceconvert.cpp
+noinst_LTLIBRARIES = libsections.la
+SectionsSources = \
+	BlocksSection.cpp BlocksSection.h \
+	ClassesSection.cpp ClassesSection.h \
+	EntitiesSection.cpp EntitiesSection.h \
+	HeaderSection.cpp HeaderSection.h \
+	ObjectsSection.cpp ObjectsSection.h \
+	Section.cpp Section.h \
+	TablesSection.cpp TablesSection.h \
+	UnknownSection.cpp UnknownSection.h
 
-libconvert_la_SOURCES = \
-	$(ConvertSources)
+libsections_la_SOURCES = \
+	$(SectionsSources)
 
-libconvertincdir = $(includedir)/dime/convert
-libconvertinc_HEADERS = \
-	$(top_srcdir)/include/dime/convert/convert.h \
-	$(top_srcdir)/include/dime/convert/layerdata.h
+libsectionsincdir = $(includedir)/dime/sections
+libsectionsinc_HEADERS = \
+	../../include/dime/sections/BlocksSection.h \
+	../../include/dime/sections/ClassesSection.h \
+	../../include/dime/sections/EntitiesSection.h \
+	../../include/dime/sections/HeaderSection.h \
+	../../include/dime/sections/ObjectsSection.h \
+	../../include/dime/sections/Section.h \
+	../../include/dime/sections/TablesSection.h \
+	../../include/dime/sections/UnknownSection.h
 
 all: all-am
 
@@ -289,9 +285,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/convert/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/sections/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/convert/Makefile
+	  $(AUTOMAKE) --gnu src/sections/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -319,8 +315,8 @@ clean-noinstLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libconvert.la: $(libconvert_la_OBJECTS) $(libconvert_la_DEPENDENCIES) 
-	$(CXXLINK)  $(libconvert_la_OBJECTS) $(libconvert_la_LIBADD) $(LIBS)
+libsections.la: $(libsections_la_OBJECTS) $(libsections_la_DEPENDENCIES) 
+	$(CXXLINK)  $(libsections_la_OBJECTS) $(libsections_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -328,20 +324,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/3dfaceconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/arcconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/circleconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/convert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/convertosm.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ellipseconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layerdata.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lineconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/linesegment.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lwpolylineconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/polylineconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/solidconvert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/traceconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BlocksSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ClassesSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/EntitiesSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HeaderSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ObjectsSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Section.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TablesSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UnknownSection.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -456,7 +446,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libconvertincdir)"; do \
+	for dir in "$(DESTDIR)$(libsectionsincdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -507,7 +497,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-libconvertincHEADERS
+install-data-am: install-libsectionsincHEADERS
 
 install-dvi: install-dvi-am
 
@@ -553,7 +543,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libconvertincHEADERS
+uninstall-am: uninstall-libsectionsincHEADERS
 
 .MAKE: install-am install-strip
 
@@ -564,30 +554,30 @@ uninstall-am: uninstall-libconvertincHEADERS
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am \
-	install-libconvertincHEADERS install-man install-pdf \
+	install-libsectionsincHEADERS install-man install-pdf \
 	install-pdf-am install-ps install-ps-am install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libconvertincHEADERS
+	tags uninstall uninstall-am uninstall-libsectionsincHEADERS
 
 
-install-libconvertincHEADERS: $(libconvertinc_HEADERS)
+install-libsectionsincHEADERS: $(libsectionsinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libconvertincdir)
-	@list='$(libconvertinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(libsectionsincdir)
+	@list='$(libsectionsinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libconvertincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libconvertincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libsectionsincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libsectionsincdir)/$$f; \
 	done
 
-uninstall-libconvertincHEADERS:
+uninstall-libsectionsincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libconvertinc_HEADERS)'; for p in $$list; do \
+	@list='$(libsectionsinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libconvertincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libconvertincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(libsectionsincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libsectionsincdir)/$$f; \
 	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

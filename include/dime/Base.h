@@ -38,7 +38,8 @@ class dimeMemHandler;
 class DIME_DLL_API dimeBase
 {
 public:
-  enum {
+
+  typedef enum DimeType {
     dimeBaseType = 1,
     dimeRecordType,
     dimeStringRecordType,
@@ -85,9 +86,13 @@ public:
     dimeUCSTableType,
     dimeLayerTableType,
 
+    dimeMTextType,
+    dimeHatchType,
+    dimeEndBlockType,
+
     // this should be last
     dimeLastTypeTag
-  };
+  } TDimeType;
   dimeBase(void);
   virtual ~dimeBase();
   

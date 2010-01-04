@@ -287,12 +287,12 @@ void convertPoint(double x, double y, double & rx, double & ry)
   int islatlon= pj_is_latlong( fromProj );
   int isgeocent=pj_is_geocent( fromProj );
   char * name = pj_get_def( fromProj , 0);
-  std::cerr  << "FROm NAME:"<< name << "|" << islatlon << "|" << isgeocent << std::endl;
+  //  std::cerr  << "FROm NAME:"<< name << "|" << islatlon << "|" << isgeocent << std::endl;
 
    islatlon= pj_is_latlong( toProj );
    isgeocent=pj_is_geocent( toProj );
    name = pj_get_def( toProj , 0);
-  std::cerr  << "TO NAME:"<< name << "|" << islatlon << "|" << isgeocent << std::endl;
+   //  std::cerr  << "TO NAME:"<< name << "|" << islatlon << "|" << isgeocent << std::endl;
 
   //  while (scanf("%lf %lf", &x, &y) == 2) {
   //  rx = x * DEG_TO_RAD;
@@ -305,30 +305,30 @@ void convertPoint(double x, double y, double & rx, double & ry)
   //            }
   //            exit(0);
   //  double ax[1], ay[1], az[1];
-  std::cerr.precision(10);
-  std::cerr.width(10);
-  std::cerr << x  << "|" << y  << std::endl;
+  // std::cerr.precision(10);
+  // std::cerr.width(10);
+  // std::cerr << x  << "|" << y  << std::endl;
   //  const double D2R =DEG_TO_RAD;
   double ax = x;// * DEG_TO_RAD;
   double ay = y;// * DEG_TO_RAD ;
   double az = 0;
   
     /** end of "caution" section. */
-    std::cerr.precision(10);
-  std::cerr.width(10);
+  //   std::cerr.precision(10);
+  // std::cerr.width(10);
   
-  std::cerr << ax  << "|" << ay  << "|" << std::endl;
+  // std::cerr << ax  << "|" << ay  << "|" << std::endl;
   int ret=pj_transform1(fromProj, toProj, ax, ay, az);
   
-  std::cerr.precision(10);
-  std::cerr.width(10);
+  // std::cerr.precision(10);
+  // std::cerr.width(10);
   
-    std::cerr << ax  << "|" << ay  << "|" << ret  << "|" << std::endl;
+  //   std::cerr << ax  << "|" << ay  << "|" << ret  << "|" << std::endl;
 
     ax *= RAD_TO_DEG;
     ay *= RAD_TO_DEG;
 
-    std::cerr << ax  << "|" << ay  << "|" << ret  << "|" << std::endl;
+    // std::cerr << ax  << "|" << ay  << "|" << ret  << "|" << std::endl;
 
     //printf("%.4f\t%.4f -> %.4f\t%.4f\n", *lat, *lon, y[0], x[0]);    
     rx = ay;
@@ -442,7 +442,7 @@ dimeMText::write(dimeOutput * const file)
 
   file->writeString(this->text.c_str());
 
-  print();
+  //  print();
 
 
   //  this->writeExtrusionData(file);
@@ -455,7 +455,7 @@ dimeMText::write(dimeOutput * const file)
 int 
 dimeMText::typeId() const
 {
-  return 1; //dimeMTextType;
+  return dimeBase::dimeMTextType;
 }
 
 /*!
@@ -551,7 +551,7 @@ Text Record GC:44 Param:||0|1065353216|1|1
 	//lat=  easting;
 	//lon=  northing;
 	
-	print(); // just print out the whole record so far.
+	//	print(); // just print out the whole record so far.
 	break;
 
       case 10: // UTM COORD Easting
@@ -583,13 +583,13 @@ Text Record GC:44 Param:||0|1065353216|1|1
       case 62:
       case 370:
 
-  std::cerr << "Text Record GC:" << groupcode << " Param:"
- <<"|"	    << param.int8_data 
- <<"|"	    << param.int16_data 
- <<"|"	    << param.int32_data 
- <<"|"	    << param.float_data 
- <<"|"	    << param.double_data 
-	    << std::endl;
+ //  std::cerr << "Text Record GC:" << groupcode << " Param:"
+ // <<"|"	    << param.int8_data 
+ // <<"|"	    << param.int16_data 
+ // <<"|"	    << param.int32_data 
+ // <<"|"	    << param.float_data 
+ // <<"|"	    << param.double_data 
+ // 	    << std::endl;
 
 	break;
 
@@ -619,17 +619,18 @@ Text Record GC:44 Param:||0|1065353216|1|1
 
       case 9:// name
       default:
-  std::cout << "<tag GC:" << groupcode << " StringParam:"
- 	    << param.string_data 
+	break;
+  // std::cout << "<tag GC:" << groupcode << " StringParam:"
+  // 	    << param.string_data 
     // <<"|" << param.hex_data 
     // <<"|"	    << param.int8_data 
     // <<"|"	    << param.int16_data 
     // <<"|"	    << param.int32_data 
     // <<"|"	    << param.float_data 
     // <<"|"	    << param.double_data 
-	    << std::endl;
+	// << std::endl;
 
-  }
+      }
 
 
   return dimeEntity::handleRecord(groupcode, param, memhandler);

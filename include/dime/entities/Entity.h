@@ -66,6 +66,8 @@ public:
   dimeEntity();
   virtual ~dimeEntity();
 
+  long  getEntityNum() {return entityNum;}
+
   int16 getEntityFlags() const;
   void setEntityFlags(const int16 flags);
 

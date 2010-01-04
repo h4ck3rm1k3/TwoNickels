@@ -101,7 +101,7 @@ dimeHatch::write(dimeOutput * const file)
 int 
 dimeHatch::typeId() const
 {
-  return 2;
+  return dimeBase::dimeHatchType;
 }
 
 /*!

@@ -46,6 +46,11 @@ dxfLayerData::dxfLayerData(const int colidx)
   this->colidx = colidx;
 }
 
+
+void dxfLayerData::writeOSM(_IO_FILE* out, int indent)
+{
+  
+}
 /*!
   Destructor.
 */

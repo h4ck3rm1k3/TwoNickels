@@ -59,6 +59,9 @@ public:
   void writeWrl(FILE *fp, int indent, const bool vrml1,
                 const bool only2d);
 
+  void writeOSM(FILE *fp, int indent);
+
+
 //private:
 public: // 20011001 thammer - please don't kill me for this ;-)
 

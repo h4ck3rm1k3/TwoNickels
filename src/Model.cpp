@@ -85,6 +85,8 @@ dimeModel::getVersion(int &major, int &minor)
 
 #include <string.h>
 #include <time.h>
+#include <iostream>
+using namespace std;
 
 #define SECTIONID "SECTION"
 #define EOFID     "EOF"
@@ -217,14 +219,22 @@ dimeModel::read(dimeInput * const in)
       if (!ok) break;
       section = dimeSection::createSection(string, in->getMemHandler());
       ok = section != NULL && section->read(in);
-      if (!ok) break;
+      if (!ok) 
+	{
+	  cerr << "bad section " << string  << endl;
+	  break;
+	}
       this->sections.append(section);
     }
     else if (!strcmp(string, EOFID)) {
       ok = true;
       break;
     }
-    else break; // something unexpected has happened
+    else 
+      {
+	cerr << "Unexpected " << string  << endl;
+	break; // something unexpected has happened
+      }
   }	
   if (!ok) {
     if (in->aborted) {

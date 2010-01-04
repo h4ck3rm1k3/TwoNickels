@@ -46,6 +46,16 @@ class DIME_DLL_API dimeMText : public dimeEntity
   double lon;
 
 public:
+  double getEasting() {return easting;}
+  double getNorthing() {return northing;}
+
+  double getLat() {return lat;}
+  double getLon() {return lon;}
+
+  const char * getType() {return type.c_str();}
+  const char * getText() {return text.c_str();}
+
+
   dimeMText();
 
   virtual dimeEntity *copy(dimeModel * const model) const;
