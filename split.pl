@@ -1,6 +1,11 @@
+use warnings;
+use strict;
+my $chunksize=100;
+my $searchkey="VIA_PAV_ASFALTO";
 my $count=1;
 sub begin
 {
+    warn "OUT_${count}.osm";
     open OUT , ">OUT_${count}.osm";
     $count++;
     print OUT '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
@@ -13,63 +18,119 @@ sub end
     close OUT;
 }
 
-my $id=0;
+my $id=1;
+
+my %hide;
+my %need; # what nodes are needed
 
 begin;
-
+my $interesting=0;
+my @data;
 sub emit
 {
-    my $rem =$id % 100000;
+
+    my $data=join ("\n", @data);
+    if (($data =~ /\<way/) &&  ($interesting))
+    {
+	$id++;
+
+	# emit all the needed points before the way
+	foreach my $k (keys %need)
+	{
+	    if ($hide{$k})
+	    {
+		print OUT $hide{$k}; #emit the referenced nodes first
+#		delete $hide{$k}; it could be referenced twice!
+	    }
+	}
+
+
+	print OUT $data;
+    }
+    else
+    {
+
+	if ($data =~ /node/)
+	{
+	    if ($data =~ /id='(-\d+)'/)
+	    {
+		$hide{$1}=$data;
+	    }
+	}
+		
+    }
+    @data=();
+    %need=();
+
+    my $rem =$id % $chunksize;
     if ($rem==0)
     {
 	warn "$id and $rem $_";
+	$id++; # make sure it does not loop 
 	end;
 	begin;
-	next;
     }
+    $interesting=0;
 }
 
 while (<>)
 {
+    chomp;
 
     if (/\<xml /)
     {
     }
-    elsif (/\osm/)
+    elsif (/\<osm/)
+    {
+    }
+    elsif (/\/osm/)
     {
     }
     elsif (/\<node/)
     {
-	$id++;
-	print OUT $_;
+	push @data, $_;
     }
     elsif (/\<way/)
     {
-	$id++;
-	print OUT $_;
+	push @data, $_;
     }   
-    elsif (/\<nd/)
+    elsif (/\<nd ref='(-\d+)'/)
     {
-	print OUT $_;
+	$need{$1}++;
+	push @data, $_;
+#	print OUT $_;
     }      
     elsif (/\lat=/)
     {
-	print OUT $_;
+	push @data, $_;
+#	print OUT $_;
     }      
     elsif (/\<tag/)
     {
-	print OUT $_;
+	push @data, $_;
+	if (/$searchkey/)
+	{
+	    $interesting=1;
+	}
+	    
+#	print OUT $_;
     }      
     elsif (/\<\/node/)
     {
-	print OUT $_;
+	push @data, $_;
+#	print OUT $_ if $interesting;
 	emit;
     }
     elsif (/\<\/way/)
     {
-	print OUT $_;
+#	print OUT $_ if $interesting;
+	push @data, $_;
 	emit;
     }    
+    elsif (/^\s*$/)
+    {
+    
+    }
     else
     {
 	warn "$_";
