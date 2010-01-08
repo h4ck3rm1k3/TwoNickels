@@ -1,7 +1,17 @@
 use warnings;
 use strict;
 my $chunksize=100;
-my $searchkey="VIA_PAV_ASFALTO";
+my @searchkeys=qw(VIA_CONSTRUCAO
+VIA_NAO_PAVIMENTADA
+VIA_PAV_ASFALTO
+VIA_PAV_BLOQUETE
+CALCADA
+CICLOVIA
+);
+my %searchkeys;
+
+map {$searchkeys{$_}=1;} @searchkeys;
+
 my $count=1;
 sub begin
 {
@@ -77,7 +87,7 @@ while (<>)
 {
     chomp;
 
-    if (/\<xml /)
+    if (/\<\?xml/)
     {
     }
     elsif (/\<osm/)
@@ -108,9 +118,12 @@ while (<>)
     elsif (/\<tag/)
     {
 	push @data, $_;
-	if (/$searchkey/)
+	if (/k='ac:layer_name' v='(\w+)'/)
 	{
-	    $interesting=1;
+	    if($searchkeys{$1})
+	    {
+		$interesting=1;
+	    }
 	}
 	    
 #	print OUT $_;
