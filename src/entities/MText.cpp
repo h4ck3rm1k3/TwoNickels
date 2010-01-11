@@ -39,11 +39,8 @@
 #include <dime/util/MemHandler.h>
 #include <dime/Model.h>
 #include <math.h>
-//#include <proj_api.h>
-//#include "../../proj/trunk/src/proj_api.h"
-#include "../../proj/trunk/src/projects.h"
-//#include "../../proj/trunk/src/emess.h"
-#include "../../proj/trunk/src/proj_config.h"
+#include <proj_api.h> // using the standard proj4 
+
 
 #ifdef _WIN32
 #define M_PI 3.14159265357989
