@@ -41,6 +41,8 @@
 #include <math.h>
 #include <proj_api.h> // using the standard proj4 
 
+#include <iostream>
+using namespace std;
 
 #ifdef _WIN32
 #define M_PI 3.14159265357989
@@ -56,7 +58,8 @@ void convertPoint(double x, double y, double & rx, double & ry)
 {
   projPJ fromProj, toProj;
 
-  if (!(fromProj = pj_init_plus("+proj=utm +south +ellps=intl +zone=24K +units=m -f \"%.7f\" ")) )
+  // +proj=utm +zone=34 +ellps=WGS84 +datum=WGS84 +units=m +no_defs 
+  if (!(fromProj = pj_init_plus("+proj=utm  +zone=34T +ellps=WGS84 +datum=WGS84 +units=m -f \"%.7f\" ")) )
     exit(1);
     
   if (!(toProj = pj_latlong_from_proj( fromProj )))
@@ -69,10 +72,25 @@ void convertPoint(double x, double y, double & rx, double & ry)
   islatlon= pj_is_latlong( toProj );
   isgeocent=pj_is_geocent( toProj );
   name = pj_get_def( toProj , 0);
-  double ax = x;// * DEG_TO_RAD;
-  double ay = y;// * DEG_TO_RAD ;
+  double ax = x;
+  double ay = y;
+
+  //500 
+  // 
+  /*  if (ax < 400000)
+    {
+      ax += 500000;
+    }
+
+  if (ay < 3000000)
+    {
+      ay += 4000000; // adjust
+    }
+  */
   double az = 0;
-  
+  cerr.width(20);
+  cerr.precision(20);
+  cerr << ax<< ", "<< ay <<   " -> " ; 
   int ret=pj_transform(fromProj, toProj, 1, 1, &ax, &ay, &az);
  
 
@@ -82,6 +100,10 @@ void convertPoint(double x, double y, double & rx, double & ry)
   rx = ay;
   ry = ax;
   
+  cerr.width(20);
+  cerr.precision(20);
+  cerr << ax<< ", "<< ay <<  endl ;
+
   pj_free(fromProj); 
   pj_free(toProj); 
   

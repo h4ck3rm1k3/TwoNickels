@@ -380,7 +380,18 @@ dimeEntity::createEntity(const char * const name,
     return new(memhandler) dimeArc;
   else if (!strcmp(name, "ENDBLK"))
     return new(memhandler) dimeUnknownEntity(name, memhandler);
-  
+  else if (!strcmp(name, "ATTDEF"))
+    return new(memhandler) dimeMText; // new
+  else if (!strcmp(name, "TEXT"))
+    return new(memhandler) dimeMText; // new
+  else if (!strcmp(name, "SEQEND"))
+  return new(memhandler) dimeUnknownEntity(name, memhandler);
+  else if (!strcmp(name, "IMAGE"))
+    return new(memhandler) dimeMText; // new
+  else if (!strcmp(name, "ATTRIB"))
+    return new(memhandler) dimeMText; // new
+
+
   fprintf(stderr,"Unknown Entity: %s\n", name);
   return new(memhandler) dimeUnknownEntity(name, memhandler);
 }
