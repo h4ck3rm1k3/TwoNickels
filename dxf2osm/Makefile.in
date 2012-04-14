@@ -50,7 +50,7 @@ CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_dxf2osm_OBJECTS = dxf2osm.$(OBJEXT)
 dxf2osm_OBJECTS = $(am_dxf2osm_OBJECTS)
-dxf2osm_DEPENDENCIES = ../src/libdime.la
+dxf2osm_DEPENDENCIES = ../src/libdime.la /usr/lib/libproj.a
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
@@ -212,7 +212,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = -I../include
 dxf2osm_SOURCES = dxf2osm.cpp
-dxf2osm_LDADD = ../src/libdime.la -lproj
+dxf2osm_LDADD = ../src/libdime.la /usr/lib/libproj.a
 all: all-am
 
 .SUFFIXES:
